@@ -1,4 +1,4 @@
-# Wordpress Local Development using Docker
+# Local WordPress Development using Docker
 
 This docker-compose file sets up a local WordPress instance loading the website files from your local drive and data a docker volume. 
 
@@ -35,7 +35,7 @@ Creates mysql container with a default root password you define
     ports:
       - 8081:80
     environment:
-      MYSQL_ROOT_PASSWORD: password123
+      MYSQL_ROOT_PASSWORD: some_password
     links:
       - mysql:db
 ```
