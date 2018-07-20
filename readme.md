@@ -26,7 +26,7 @@ docker-compose up -d
       MYSQL_ROOT_PASSWORD: some_password
 ```
 
-Sets up a local instance of mysql with a default root password you define
+Creates mysql container with a default root password you define
 
 ```yml
   phpmyadmin:
@@ -40,7 +40,7 @@ Sets up a local instance of mysql with a default root password you define
       - mysql:db
 ```
 
-Sets up instance of phpMyAdmin pointing to your mysql container so you can administer it. 
+Creates a container running phpMyAdmin pointing to your mysql container so you can administer it. 
 
 ```yml
   web:
@@ -59,7 +59,7 @@ Sets up instance of phpMyAdmin pointing to your mysql container so you can admin
       WORDPRESS_DB_PASSWORD: your_pass     
 ```
 
-Sets up a wordpress container that links to your mysql insance along with the credentials you supply. This pulls your wordpress installation files from a local folder (optional) so you can develop locally. 
+Creates a wordpress container that links to your mysql insance along with the credentials you supply. This pulls your wordpress installation files from a local folder (optional) so you can develop locally. 
 
 ```yml
 volumes:
