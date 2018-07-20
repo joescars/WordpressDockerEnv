@@ -5,7 +5,7 @@ services:
     image: mysql:5.7
     restart: always
     volumes:
-      - ./data:/var/lib/mysql    
+      - db-data:/var/lib/mysql    
     ports:
       - 8086:3306
     environment:
@@ -16,8 +16,9 @@ services:
     ports:
       - 8081:80
     environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: password123 
+      MYSQL_ROOT_PASSWORD: password123
+    links:
+      - mysql:db
   web:
     image: wordpress
     volumes:
@@ -26,8 +27,13 @@ services:
     links:
       - mysql
     ports:
-      - 8080:80      
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: your_user
+      WORDPRESS_DB_NAME: your_db_name
+      WORDPRESS_DB_PASSWORD: your_pass            
 
 ## optional docker volumes for data
-#volumes:
-#  db-data:
+volumes:
+ db-data:

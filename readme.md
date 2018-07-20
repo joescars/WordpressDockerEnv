@@ -1,8 +1,8 @@
 # Wordpress Local Development using Docker
 
-This docker-compose file sets up a local WordPress instance pulling both the website files and data from your local drive. 
+This docker-compose file sets up a local WordPress instance loading the website files from your local drive and data a docker volume. 
 
-This allows you to easily edit the site as well as migrate your data to production in the future. 
+I've found this setup works best for me when I need to work on my custom WordPress site locally. 
 
 ## Instructions
 
@@ -11,3 +11,59 @@ This allows you to easily edit the site as well as migrate your data to producti
 ```
 docker-compose up -d
 ```
+
+## Additional Info
+
+```yml
+  mysql:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql    
+    ports:
+      - 8086:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: some_password
+```
+
+Sets up a local instance of mysql with a default root password you define
+
+```yml
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+    links:
+      - mysql:db
+```
+
+Sets up instance of phpMyAdmin pointing to your mysql container so you can administer it. 
+
+```yml
+  web:
+    image: wordpress
+    volumes:
+      - ./wordpress:/var/www/html
+    restart: always
+    links:
+      - mysql
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: your_user
+      WORDPRESS_DB_NAME: your_db_name
+      WORDPRESS_DB_PASSWORD: your_pass     
+```
+
+Sets up a wordpress container that links to your mysql insance along with the credentials you supply. This pulls your wordpress installation files from a local folder (optional) so you can develop locally. 
+
+```yml
+volumes:
+ db-data:
+```
+
+Stores mysql data in docker volume. 
